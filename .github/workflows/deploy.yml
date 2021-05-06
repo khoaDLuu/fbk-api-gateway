@@ -3,7 +3,7 @@ name: Build & Push to Heroku Docker Registry
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
