@@ -1,0 +1,19 @@
+server:
+  port: {$PORT}
+
+spring:
+  application:
+    name: fbk-api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: {$SERVICE_DISCOVERER_URL}
+
+jwt:
+  secret: {$JWT_SECRET}

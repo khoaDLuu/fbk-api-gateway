@@ -1,0 +1,11 @@
+# for config server
+server:
+  port: {$PORT}
+
+spring:
+  application:
+    name: fbk-api-gateway
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:1111
