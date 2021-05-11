@@ -1,11 +1,14 @@
-# for config server
 server:
-  port: {$PORT}
+  port: ${PORT}
 
 spring:
   application:
     name: fbk-api-gateway
   cloud:
     config:
+      discovery.enabled: true
       enabled: true
-      uri: http://localhost:1111
+      name: fbk-api-gateway
+      uri: ${CONFIG_SERVER_URI}
+
+eureka.client.serviceUrl.defaultZone: ${SERVICE_DISCOVERER_URL}/eureka/
