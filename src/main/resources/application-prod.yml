@@ -1,5 +1,5 @@
 server:
-  port: {$PORT}
+  port: ${PORT}
 
 spring:
   application:
@@ -10,10 +10,12 @@ spring:
         locator:
           enabled: true
 
+spring.config.import: optional:configserver:${CONFIG_SERVER_URL}
+
 eureka:
   client:
     serviceUrl:
-      defaultZone: {$SERVICE_DISCOVERER_URL}
+      defaultZone: ${SERVICE_DISCOVERER_URL}/eureka/
 
 jwt:
-  secret: {$JWT_SECRET}
+  secret: ${JWT_SECRET}
