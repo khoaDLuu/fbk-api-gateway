@@ -30,7 +30,11 @@ public class GatewayConfig {
                         .uri("lb://booking-service"))
                 .route("booking-service", r -> r.path("/tickets/**")
                         .filters(f -> f.filter(filter))
-                        .uri("lb://booking-service"))
+                        .uri("https://fbooking-service.herokuapp.com"))
+
+                .route(r -> r.path("/get")
+                        .filters(f -> f.addRequestHeader("Hello", "World"))
+                        .uri("http://httpbin.org:80"))
                 .build();
     }
 
