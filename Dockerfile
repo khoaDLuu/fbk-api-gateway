@@ -10,5 +10,6 @@ WORKDIR /app
 ADD target/api_gateway-0.0.1-SNAPSHOT.jar \
     /app/api_gateway-0.0.1-SNAPSHOT.jar
 
-CMD java -Xms256m -Xmx256m -Xss512k -XX:+UseContainerSupport -Dserver.port=$PORT $JAVA_OPTS \
-    -jar /app/api_gateway-0.0.1-SNAPSHOT.jar
+CMD java -Xms256m -Xmx256m -Xss512k -XX:+UseContainerSupport \
+        -Dserver.port=$PORT $JAVA_OPTS \
+        -jar /app/api_gateway-0.0.1-SNAPSHOT.jar
