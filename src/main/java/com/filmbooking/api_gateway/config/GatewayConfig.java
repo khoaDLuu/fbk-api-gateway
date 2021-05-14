@@ -27,10 +27,22 @@ public class GatewayConfig {
 
                 .route("booking-service", r -> r.path("/bookings/**")
                         .filters(f -> f.filter(filter))
-                        .uri("lb://booking-service"))
+                        .uri("https://fbooking-service.herokuapp.com"))
                 .route("booking-service", r -> r.path("/tickets/**")
                         .filters(f -> f.filter(filter))
                         .uri("https://fbooking-service.herokuapp.com"))
+
+                // .route("screening-service", r -> r.path("/**")
+                //         .filters(f -> f.filter(filter))
+                //         .uri("https://app-screening-service.herokuapp.com"))
+
+                .route(r -> r.path("/movie/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("https://app-movie-genre-service.herokuapp.com"))
+
+                .route("movie-service", r -> r.path("/genre/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("https://app-movie-genre-service.herokuapp.com"))
 
                 .route(r -> r.path("/get")
                         .filters(f -> f.addRequestHeader("Hello", "World"))
