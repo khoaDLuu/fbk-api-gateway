@@ -31,6 +31,11 @@ public class ApiGatewayApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
 						.allowCredentials(true)
+						.allowedOrigins(
+							"https://movie-management-app.herokuapp.com",
+							"https://my-movie-booking.herokuapp.com",
+							"http://localhost:3000"
+						)
 						.allowedHeaders("*")
 						.allowedMethods("*")
 						.exposedHeaders(HttpHeaders.SET_COOKIE);
