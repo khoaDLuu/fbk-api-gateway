@@ -14,9 +14,11 @@ public class CorsConfig implements WebFluxConfigurer
     {
         registry.addMapping("/**")
             .allowedOrigins(
-                "*"
+                "https://movie-management-app.herokuapp.com",
+                "https://my-movie-booking.herokuapp.com",
+                "http://localhost:3000"
             )
-            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD")
             .allowedHeaders("*");
     }
 }

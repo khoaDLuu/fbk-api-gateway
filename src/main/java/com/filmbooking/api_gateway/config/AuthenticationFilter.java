@@ -61,6 +61,7 @@ public class AuthenticationFilter implements GatewayFilter {
         exchange.getRequest().mutate()
                 .header("id", String.valueOf(claims.get("id")))
                 .header("role", String.valueOf(claims.get("role")))
+                .header("Access-Control-Allow-Origin", "*")
                 .build();
     }
 }

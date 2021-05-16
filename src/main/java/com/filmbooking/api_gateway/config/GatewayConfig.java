@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableHystrix
 public class GatewayConfig {
 
     @Autowired
@@ -50,7 +49,7 @@ public class GatewayConfig {
                         .uri("https://app-screening-service.herokuapp.com"))
 
                 // movie service
-                .route(r -> r.path("/movie/**")
+                .route("movie-service", r -> r.path("/movie/**")
                         .filters(f -> f.filter(filter))
                         .uri("https://app-movie-genre-service.herokuapp.com"))
 
