@@ -15,7 +15,6 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.reactive.config.CorsRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
-@Configuration
 @EnableEurekaClient
 @SpringBootApplication
 public class ApiGatewayApplication {
@@ -24,23 +23,28 @@ public class ApiGatewayApplication {
 		SpringApplication.run(ApiGatewayApplication.class, args);
 	}
 
-	@Bean
-	public WebFluxConfigurer corsConfigurer() {
-		return new WebFluxConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-						.allowCredentials(true)
-						.allowedOrigins(
-							"https://movie-management-app.herokuapp.com",
-							"https://my-movie-booking.herokuapp.com",
-							"http://localhost:3000"
-						)
-						.allowedHeaders("*")
-						.allowedMethods("*")
-						.exposedHeaders(HttpHeaders.SET_COOKIE);
-			}
-		};
-	}
+	// @Bean
+	// public WebFluxConfigurer corsConfigurer() {
+	// 	return new WebFluxConfigurer() {
+	// 		@Override
+	// 		public void addCorsMappings(CorsRegistry registry) {
+	// 			registry.addMapping("/**")
+	// 					.allowCredentials(true)
+	// 					.allowedOrigins(
+	// 						"https://movie-management-app.herokuapp.com",
+	// 						"https://my-movie-booking.herokuapp.com",
+	// 						"http://localhost:3000"
+	// 					)
+	// 					.allowedHeaders("*")
+	// 					.allowedMethods("OPTIONS")
+	// 					.allowedMethods("POST")
+	// 					.allowedMethods("GET")
+	// 					.allowedMethods("PUT")
+	// 					.allowedMethods("PATCH")
+	// 					.allowedMethods("DELETE")
+	// 					.exposedHeaders("*");
+	// 		}
+	// 	};
+	// }
 
 }

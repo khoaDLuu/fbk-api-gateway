@@ -58,7 +58,7 @@ public class GatewayConfig {
                         .filters(f -> f.filter(filter))
                         .uri("https://app-movie-genre-service.herokuapp.com"))
 
-                // test service (hhtpbin)
+                // test service (httpbin)
                 .route(r -> r.path("/get")
                         .filters(f -> f.addRequestHeader("Hello", "World"))
                         .uri("http://httpbin.org:80"))
