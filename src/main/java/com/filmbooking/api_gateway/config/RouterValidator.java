@@ -12,9 +12,9 @@ public class RouterValidator {
     public static final List<String> openApiEndpoints = List.of(
             "/auth/register",
             "/auth/login",
-            "/movie/",
-            "/date/",
-            "/screening/by-date/"
+            "/movie",
+            "/date",
+            "/screening/by-date"
     );
 
     public Predicate<ServerHttpRequest> isSecured =
