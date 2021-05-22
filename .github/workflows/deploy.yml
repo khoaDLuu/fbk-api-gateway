@@ -21,7 +21,6 @@ jobs:
         PORT: ${{ secrets.PORT }}
         SERVICE_DISCOVERER_URL: ${{ secrets.SERVICE_DISCOVERER_URL }}
         CONFIG_SERVER_URL: ${{ secrets.CONFIG_SERVER_URL }}
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
       run: mvn -B package --file pom.xml
     - name: Heroku Container Registry login
       env:

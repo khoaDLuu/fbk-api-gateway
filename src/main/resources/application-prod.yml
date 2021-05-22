@@ -16,6 +16,3 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${SERVICE_DISCOVERER_URL}/eureka/
-
-jwt:
-  secret: ${JWT_SECRET}

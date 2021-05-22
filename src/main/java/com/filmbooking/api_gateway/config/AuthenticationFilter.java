@@ -1,6 +1,5 @@
 package com.filmbooking.api_gateway.config;
 
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -19,7 +18,7 @@ public class AuthenticationFilter implements GatewayFilter {
     @Autowired
     private RouterValidator routerValidator;
     @Autowired
-    private JwtUtil jwtUtil;
+    private RemoteAuth auth;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -30,20 +29,20 @@ public class AuthenticationFilter implements GatewayFilter {
                 return this.onError(exchange, "Authorization header is missing in request", HttpStatus.UNAUTHORIZED);
             }
 
-            String token = "";
             try {
-                token = this.getAuthHeader(request);
+                this.getToken(request);
             }
             catch (ArrayIndexOutOfBoundsException e) {
                 return this.onError(exchange, "Authorization header is malformed", HttpStatus.UNAUTHORIZED);
             }
-
-            if (jwtUtil.isInvalid(token))
-                return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
-
-            this.populateRequestWithHeaders(exchange, token);
         }
-        return chain.filter(exchange);
+
+        return auth.isValid(this.getAuthValue(request)).flatMap(tokenValid -> {
+            if (!tokenValid) {
+                return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
+            }
+            return chain.filter(exchange);
+        });
     }
 
 
@@ -55,11 +54,12 @@ public class AuthenticationFilter implements GatewayFilter {
         return response.setComplete();
     }
 
-    private String getAuthHeader(ServerHttpRequest request) {
-        final String authValue = request
-            .getHeaders()
-            .getOrEmpty("Authorization")
-            .get(0);
+    private String getAuthValue(ServerHttpRequest request) {
+        return request.getHeaders().getOrEmpty("Authorization").get(0);
+    }
+
+    private String getToken(ServerHttpRequest request) {
+        final String authValue = this.getAuthValue(request);
         final String[] parts = authValue.split(" ");
         final String type = parts[0];
         final String token = parts[1];
@@ -76,11 +76,11 @@ public class AuthenticationFilter implements GatewayFilter {
         return !request.getHeaders().containsKey("Authorization");
     }
 
-    private void populateRequestWithHeaders(ServerWebExchange exchange, String token) {
-        Claims claims = jwtUtil.getAllClaimsFromToken(token);
-        exchange.getRequest().mutate()
-                .header("id", String.valueOf(claims.get("id")))
-                .header("role", String.valueOf(claims.get("role")))
-                .build();
-    }
+    // private void populateRequestWithPayload(ServerWebExchange exchange, String token) {
+    //     // Use base64 to decode
+    //     exchange.getRequest().mutate()
+    //             .header("id", String.valueOf(claims.get("id")))
+    //             .header("role", String.valueOf(claims.get("role")))
+    //             .build();
+    // }
 }
