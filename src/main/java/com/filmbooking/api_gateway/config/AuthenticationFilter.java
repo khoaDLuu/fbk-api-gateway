@@ -26,23 +26,40 @@ public class AuthenticationFilter implements GatewayFilter {
 
         if (routerValidator.isSecured.test(request)) {
             if (this.isAuthMissing(request)) {
-                return this.onError(exchange, "Authorization header is missing in request", HttpStatus.UNAUTHORIZED);
+                return this.onError(
+                    exchange,
+                    "Authorization header is missing in request",
+                    HttpStatus.UNAUTHORIZED
+                );
             }
 
             try {
                 this.getToken(request);
             }
             catch (ArrayIndexOutOfBoundsException e) {
-                return this.onError(exchange, "Authorization header is malformed", HttpStatus.UNAUTHORIZED);
+                return this.onError(
+                    exchange,
+                    "Authorization header is malformed",
+                    HttpStatus.UNAUTHORIZED
+                );
             }
-        }
 
-        return auth.isValid(this.getAuthValue(request)).flatMap(tokenValid -> {
-            if (!tokenValid) {
-                return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
-            }
+            return auth
+                .isValid(this.getAuthValue(request))
+                .flatMap(tokenValid -> {
+                    if (!tokenValid) {
+                        return this.onError(
+                            exchange,
+                            "Authorization header is invalid",
+                            HttpStatus.UNAUTHORIZED
+                        );
+                    }
+                    return chain.filter(exchange);
+                });
+        }
+        else {
             return chain.filter(exchange);
-        });
+        }
     }
 
 
