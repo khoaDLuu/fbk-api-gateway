@@ -18,7 +18,7 @@ public class CorsConfig implements WebFluxConfigurer
                 "https://my-movie-booking.herokuapp.com",
                 "http://localhost:3000"
             )
-            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD")
+            .allowedMethods("*")
             .allowedHeaders("*");
     }
 }
