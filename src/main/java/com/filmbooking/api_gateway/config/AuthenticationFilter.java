@@ -26,10 +26,17 @@ public class AuthenticationFilter implements GatewayFilter {
         ServerHttpRequest request = exchange.getRequest();
 
         if (routerValidator.isSecured.test(request)) {
-            if (this.isAuthMissing(request))
+            if (this.isAuthMissing(request)) {
                 return this.onError(exchange, "Authorization header is missing in request", HttpStatus.UNAUTHORIZED);
+            }
 
-            final String token = this.getAuthHeader(request);
+            String token = "";
+            try {
+                token = this.getAuthHeader(request);
+            }
+            catch (ArrayIndexOutOfBoundsException e) {
+                return this.onError(exchange, "Authorization header is malformed", HttpStatus.UNAUTHORIZED);
+            }
 
             if (jwtUtil.isInvalid(token))
                 return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
@@ -49,7 +56,20 @@ public class AuthenticationFilter implements GatewayFilter {
     }
 
     private String getAuthHeader(ServerHttpRequest request) {
-        return request.getHeaders().getOrEmpty("Authorization").get(0);
+        final String authValue = request
+            .getHeaders()
+            .getOrEmpty("Authorization")
+            .get(0);
+        final String[] parts = authValue.split(" ");
+        final String type = parts[0];
+        final String token = parts[1];
+
+        // ############## DEBUG ############## //
+        System.out.println("Type: " + type);
+        System.out.println("Token: " + token);
+        // ############## DEBUG ############## //
+
+        return token;
     }
 
     private boolean isAuthMissing(ServerHttpRequest request) {
