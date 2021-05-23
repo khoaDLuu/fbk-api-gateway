@@ -21,7 +21,7 @@ public class GatewayConfig {
                         .filters(f -> f.filter(filter))
                         .uri("lb://user-service"))
 
-                .route("auth-service", r -> r.path("/auth/**")
+                .route("auth-service", r -> r.path("/auth/**", "/rest-account/**")
                         .filters(f -> f.filter(filter))
                         .uri("https://myplsapp.herokuapp.com"))
 
