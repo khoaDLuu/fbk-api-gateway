@@ -14,7 +14,8 @@ public class RouterValidator {
             "/auth/login",
             "/movie",
             "/date",
-            "/screening/by-date"
+            "/screening/by-date",
+            "/screening/by-id"
     );
 
     public Predicate<ServerHttpRequest> isSecured =
