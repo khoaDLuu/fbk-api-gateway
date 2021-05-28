@@ -4,11 +4,11 @@
 spring:
   application:
     name: fbk-api-gateway
-  cloud:
-    config:
-      discovery.enabled: true
-      enabled: true
-      name: fbk-api-gateway
-      uri: ${CONFIG_SERVER_URL}
+  # cloud:
+  #   config:
+  #     discovery.enabled: true
+  #     enabled: true
+  #     name: fbk-api-gateway
+  #     uri: ${CONFIG_SERVER_URL}
 
-eureka.client.serviceUrl.defaultZone: ${SERVICE_DISCOVERER_URL}/eureka/
+# eureka.client.serviceUrl.defaultZone: ${SERVICE_DISCOVERER_URL}/eureka/
