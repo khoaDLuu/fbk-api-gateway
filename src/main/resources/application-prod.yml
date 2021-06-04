@@ -1,5 +1,7 @@
-# server:
+server:
 #   port: ${PORT}
+  error:
+    include-message: always
 
 spring:
   application:
